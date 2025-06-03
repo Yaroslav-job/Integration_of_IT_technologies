@@ -1,0 +1,19 @@
+<button
+    hx-post="/click?x={{ .Cell.X }}&y={{ .Cell.Y }}"
+    hx-target="#game"
+    {{ if or .Cell.IsOpen .Game.GameOver }} disabled {{ end }}
+    data-x="{{ .Cell.X }}"
+    data-y="{{ .Cell.Y }}"
+>
+    {{ if or .Cell.IsOpen .Game.GameOver }}
+        {{ if .Cell.IsMine }}
+            <span class="mine">💣</span>
+        {{ else if gt .Cell.Neighbors 0 }}
+            <span class="neighbor-{{ .Cell.Neighbors }}">{{ .Cell.Neighbors }}</span>
+        {{ end }}
+    {{ else if .Cell.IsFlagged }}
+        <span class="flag">🚩</span>
+    {{ else }}
+        ⬜
+    {{ end }}
+</button>

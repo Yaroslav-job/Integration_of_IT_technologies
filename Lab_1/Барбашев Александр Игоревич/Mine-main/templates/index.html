@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://unpkg.com/htmx.org"></script>
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault(); // Отключаем стандартное меню правой кнопки мыши
+            const button = e.target.closest('button');
+            if (button && !button.disabled) {
+                const x = button.getAttribute('data-x');
+                const y = button.getAttribute('data-y');
+                htmx.ajax('POST', `/flag?x=${x}&y=${y}`, { target: '#game', swap: 'innerHTML' });
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Minesweeper</h1>
+    <div id="difficulty-buttons">
+        <button hx-post="/new-game?width=10&height=10&mines=10" hx-target="#game">Easy (10x10)</button>
+        <button hx-post="/new-game?width=20&height=20&mines=40" hx-target="#game">Medium (20x20)</button>
+        <button hx-post="/new-game?width=30&height=30&mines=90" hx-target="#game">Hard (30x30)</button>
+    </div>
+    {{ template "game.html" . }}
+    {{ if .GameOver }}
+        <div class="game-over-container">
+            <h2>{{ if .Win }}You win!{{ else }}Game over!{{ end }}</h2>
+            <button hx-post="/new-game?width={{ .Width }}&height={{ .Height }}&mines={{ .MineCount }}" hx-target="#game">New Game</button>
+        </div>
+    {{ end }}
+</body>
+</html>
