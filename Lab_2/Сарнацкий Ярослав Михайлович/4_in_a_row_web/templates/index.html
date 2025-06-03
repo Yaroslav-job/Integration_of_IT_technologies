@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4 в ряд</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>4 в ряд</h1>
+        </header>
+
+        <!-- Выбор типа игры -->
+        <div id="game-choice">
+            <h2>Выберите тип игры:</h2>
+            <button onclick="startGame('player')">Игрок против Игрока</button>
+            <button onclick="startGame('bot')">Игрок против Бота</button>
+        </div>
+
+        <!-- Игровое поле -->
+        <div id="board"></div>
+
+        <!-- Статус игры -->
+        <p id="status"></p>
+    </div>
+
+    <script src="/static/game.js"></script>
+</body>
+
+</html>

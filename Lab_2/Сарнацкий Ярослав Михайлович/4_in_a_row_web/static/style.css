@@ -1,0 +1,113 @@
+/* Основные стили */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f8ff;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: #333;
+  margin-top: 20px;
+}
+
+/* Контейнер для игрового поля */
+#board {
+  display: none;
+  grid-template-columns: repeat(7, 70px);
+  gap: 5px;
+  margin: 20px auto;
+  width: max-content;
+  border: 4px solid #333;
+  border-radius: 10px;
+  background-color: #007bff;
+  padding: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#board.visible {
+  display: grid; /* Показываем доску */
+}
+
+/* Ячейки игрового поля */
+.cell {
+  width: 70px;
+  height: 70px;
+  font-size: 32px;
+  background: #fff;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.cell:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.1);
+}
+
+.cell:active {
+  transform: scale(0.95);
+}
+
+/* Статус игры */
+#status {
+  font-size: 1.2rem;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f0f8ff;
+  color: #333;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #28a745;
+  color: #f0f8ff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+/* Выбор типа игры */
+#game-choice {
+  margin-top: 20px;
+  display: block;
+  background-color: #f0f8ff;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+#game-choice button {
+  width: 100%;
+  margin: 5px 0;
+  background-color: #007bff;
+  border-radius: 10px;
+  color: #f0f8ff;
+}
+
+#game-choice button:hover {
+  background-color: #0056b3;
+}

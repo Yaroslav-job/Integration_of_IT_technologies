@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Сапёр на Go</title>
+  <script src="script.js" defer></script>
+  <style>
+    table { border-collapse: collapse; }
+    td {
+      width: 30px; height: 30px;
+      border: 1px solid #ccc;
+      text-align: center; font-weight: bold;
+      cursor: pointer;
+    }
+    .revealed { background-color: #eee; cursor: default; }
+    .mine { background-color: red; }
+  </style>
+</head>
+<body>
+  <h1>Сапёр</h1>
+  <div id="status">
+    <button id="restart">🔁 Новая игра</button>
+    <span id="flags">🚩 Флаги: 0</span>
+    <span id="timer">⏱ Время: 0 сек</span>
+  </div>
+  <div id="game"></div>
+</body>
+</html>
