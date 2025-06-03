@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Plus</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sudoku Plus</h1>
+        </header>
+        
+        <!-- Start screen -->
+        <div id="start-screen" class="screen">
+            <div class="menu">
+                <button id="level-selection-btn" class="main-btn">Play Game</button>
+                <button id="instructions-btn" class="main-btn">Instructions</button>
+            </div>
+        </div>
+
+        <!-- Instructions screen -->
+        <div id="instructions-screen" class="screen hidden">
+            <h2>How to Play Sudoku</h2>
+            <div class="instructions-content">
+                <p>Sudoku is a logic-based number placement puzzle.</p>
+                <p>The objective is to fill a 9×9 grid with digits 1-9 so that each column, each row, and each of the nine 3×3 subgrids contain all the digits from 1 to 9.</p>
+                
+                <h3>Controls:</h3>
+                <ul>
+                    <li>Click on a cell to select it</li>
+                    <li>Press 1-9 on keyboard to enter a number</li>
+                    <li>Press 0, Delete, or Backspace to clear a cell</li>
+                </ul>
+            </div>
+            <button id="back-from-instructions-btn" class="back-btn">Back</button>
+        </div>
+        
+        <!-- Game screen -->
+        <div id="game-screen" class="screen hidden">
+            <div class="game-header">
+                <div class="game-info">
+                    <span id="level-display">Level: 1/10</span>
+                </div>
+                <div class="game-controls">
+                    <button id="reset-btn" class="control-btn">Reset</button>
+                    <button id="exit-game-btn" class="control-btn">Exit</button>
+                </div>
+            </div>
+            
+            <div class="game-board">
+            </div>
+        </div>
+
+        <!-- Completion screen -->
+        <div id="completion-screen" class="screen hidden overlay">
+            <div class="completion-content">
+                <h2>Puzzle Completed!</h2>
+                <div id="completion-stats">
+                    <p id="completion-level">Level: 1/10</p>
+                </div>
+                <div class="completion-buttons">
+                    <button id="back-to-menu-btn" class="main-btn">Back to Main Menu</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Message dialog -->
+        <div id="message-dialog" class="dialog hidden">
+            <div class="dialog-content">
+                <h2 id="message-title">Message</h2>
+                <p id="message-text"></p>
+                <button id="message-ok-btn" class="dialog-btn">OK</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
