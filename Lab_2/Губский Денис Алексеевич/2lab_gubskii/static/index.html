@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048</title>
+    <link rel="stylesheet" href="animations.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            margin: 0;
+            background-color: #faf8ef;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .score {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-gap: 10px;
+            position: relative;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 5px;
+            position: absolute;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            z-index: 1;
+        }
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: black;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 24px;
+            text-align: center;
+            z-index: 10;
+        }
+        .rules-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .rules-content {
+            background: #fff;
+            color: #333;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 350px;
+        }
+        .rules-content button {
+            margin-top: 20px;
+            padding: 8px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            background: #f67c5f;
+            color: #fff;
+            cursor: pointer;
+        }
+        .rules-content button:hover {
+            background: #f65e3b;
+        }
+        .game-win {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+        .game-win .rules-content {
+            background: #fff;
+            color: #333;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 350px;
+        }
+        .game-win button {
+            margin-top: 20px;
+            padding: 8px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            background: #edcf72;
+            color: #fff;
+            cursor: pointer;
+        }
+        .game-win button:hover {
+            background: #edc22e;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>2048</h1>
+        <div class="score" id="score">Счет: 0</div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="game-over" id="game-over" style="display: none;">Game Over</div>
+    <div class="rules-modal" id="rules-modal">
+        <div class="rules-content">
+            <h2>Правила игры 2048</h2>
+            <p>Используйте стрелки на клавиатуре для перемещения плиток.<br>
+            Соединяйте одинаковые числа, чтобы получить 2048.<br>
+            Игра заканчивается, когда не осталось ходов.</p>
+            <button id="rules-ok">OK</button>
+        </div>
+    </div>
+    <div class="game-win" id="game-win" style="display: none;">
+        <div class="rules-content">
+            <h2>Поздравляем!</h2>
+            <p>Вы собрали 2048!<br>Игра окончена.</p>
+            <button id="win-ok">OK</button>
+        </div>
+    </div>
+    <script>
+        const colors = [
+            "#eee4da", "#ede0c8", "#f2b179", "#f59563",
+            "#f67c5f", "#f65e3b", "#edcf72", "#edcc61",
+            "#edc850", "#edc53f", "#edc22e"
+        ];
+
+        let controlsEnabled = false;
+
+        function renderGrid(grid, newTiles = [], mergedTiles = []) {
+            const gridElement = document.getElementById("grid");
+            gridElement.innerHTML = "";
+            grid.forEach((row, x) => {
+                row.forEach((value, y) => {
+                    const cell = document.createElement("div");
+                    cell.className = "cell";
+                    cell.style.backgroundColor = value ? colors[Math.min(Math.log2(value), colors.length - 1)] : "#cdc1b4";
+                    cell.textContent = value || "";
+                    cell.style.transform = `translate(${y * 110}px, ${x * 110}px)`;
+                    cell.style.setProperty('--tx', `${y * 110}px`);
+                    cell.style.setProperty('--ty', `${x * 110}px`);
+                    if (newTiles && newTiles.some(t => t[0] === x && t[1] === y)) {
+                        cell.classList.add("cell-new");
+                    }
+                    if (mergedTiles && mergedTiles.some(t => t[0] === x && t[1] === y)) {
+                        cell.classList.add("cell-merge");
+                    }
+                    gridElement.appendChild(cell);
+                });
+            });
+        }
+
+        function renderScore(score) {
+            document.getElementById("score").textContent = `Счет: ${score}`;
+        }
+
+        function renderGameOver(over) {
+            document.getElementById("game-over").style.display = over ? "block" : "none";
+            if (over) controlsEnabled = false;
+        }
+
+        function renderGameWin(win) {
+            document.getElementById("game-win").style.display = win ? "flex" : "none";
+            if (win) controlsEnabled = false;
+        }
+
+        function applyGameState(data) {
+            renderGrid(data.grid, data.newTiles, data.mergedTiles);
+            renderScore(data.score);
+            renderGameOver(data.over);
+            renderGameWin(data.win);
+        }
+
+        async function fetchState() {
+            const response = await fetch("/api/state");
+            const data = await response.json();
+            applyGameState(data);
+        }
+
+        async function move(direction) {
+            if (!controlsEnabled) return;
+            await fetch("/api/state", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ direction })
+            });
+            fetchState();
+        }
+
+        function setupControls() {
+            document.addEventListener("keydown", (e) => {
+                if (!controlsEnabled) return;
+                const directions = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right" };
+                if (directions[e.key]) move(directions[e.key]);
+            });
+        }
+
+        function showRulesModal() {
+            document.getElementById("rules-modal").style.display = "flex";
+            controlsEnabled = false;
+        }
+
+        function hideRulesModal() {
+            document.getElementById("rules-modal").style.display = "none";
+            controlsEnabled = true;
+        }
+
+        document.getElementById("rules-ok").onclick = function() {
+            hideRulesModal();
+            fetchState();
+        };
+
+        document.getElementById("win-ok").onclick = function() {
+            document.getElementById("game-win").style.display = "none";
+        };
+
+        setupControls();
+        showRulesModal();
+    </script>
+</body>
+</html>

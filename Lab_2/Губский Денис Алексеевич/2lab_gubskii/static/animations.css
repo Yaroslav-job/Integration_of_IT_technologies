@@ -1,0 +1,18 @@
+.cell-new {
+    animation: pop 0.3s;
+    z-index: 2;
+}
+.cell-merge {
+    animation: merge 0.3s;
+    z-index: 3;
+}
+@keyframes pop {
+    0% { transform: scale(0.5) translate(var(--tx), var(--ty)); }
+    80% { transform: scale(1.15) translate(var(--tx), var(--ty)); }
+    100% { transform: scale(1) translate(var(--tx), var(--ty)); }
+}
+@keyframes merge {
+    0% { box-shadow: 0 0 0 0 #fff7b2; }
+    50% { box-shadow: 0 0 30px 10px #fff7b2; }
+    100% { box-shadow: 0 0 0 0 #fff7b2; }
+}
