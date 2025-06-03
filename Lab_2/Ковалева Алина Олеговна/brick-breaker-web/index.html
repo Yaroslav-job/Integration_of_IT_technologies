@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Brick Breaker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preload" href="assets/ball.png" as="image">
+  <link rel="preload" href="assets/paddle.png" as="image">
+  <link rel="preload" href="assets/brick.png" as="image">
+  <link rel="preload" href="assets/brick1.png" as="image">
+  <link rel="preload" href="assets/brick2.png" as="image">
+  <link rel="preload" href="assets/brick3.png" as="image">
+  <link rel="preload" href="assets/brick4.png" as="image">
+  <link rel="preload" href="assets/brick5.png" as="image">
+  <link rel="preload" href="assets/brick6.png" as="image">
+  <link rel="preload" href="assets/brick7.png" as="image">
+  <link rel="preload" href="assets/brick8.png" as="image">
+  <link rel="preload" href="assets/brick9.png" as="image">
+</head>
+<body>
+    <div class="game-container">
+      <div id="startMenu" class="menu">
+        <h2>My Brick Breaker</h2>
+        <button id="startButton">Start Game</button>
+      </div>
+      <canvas id="gameCanvas" width="700" height="500"></canvas>
+      <div id="gameOverMenu" class="menu hidden">
+        <h2 id="gameOverText">Game Over</h2>
+        <button id="restartButton">Restart Game</button>
+      </div>
+    </div>
+    <script type="module" src="main.js"></script>
+  </body>
+  
+</html>

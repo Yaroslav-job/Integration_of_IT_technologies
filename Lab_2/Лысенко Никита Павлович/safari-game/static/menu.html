@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Главное меню</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Главное меню</h1>
+    <p>Добро пожаловать, {{.Username}}!</p>
+    <button onclick="startGame()">Начать игру</button>
+    <script>
+        function startGame() {
+            window.location.href = "/game-start";
+        }
+    </script>
+    <a href="/logout">Выйти</a>
+</body>
+</html>

@@ -1,0 +1,3 @@
+go 1.24
+
+use ./services/gesture-recognition-results
